@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "/gallery", label: "Galerie" },
   { href: "/videos", label: "Videos" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "Über" },
   { href: "/contact", label: "Kontakt" },
 ];

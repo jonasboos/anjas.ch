@@ -21,6 +21,9 @@ export function Footer() {
             <Link href="/videos" className="text-zinc-500 transition-colors hover:text-white">
               Videos
             </Link>
+            <Link href="/blog" className="text-zinc-500 transition-colors hover:text-white">
+              Blog
+            </Link>
             <Link href="/about" className="text-zinc-500 transition-colors hover:text-white">
               Über
             </Link>
