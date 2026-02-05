@@ -18,7 +18,7 @@ export default function AboutPage() {
           >
             <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-zinc-900">
               <Image
-                src="https://image.jimcdn.com/cdn-cgi/image/width=600%2Cheight=10000%2Cfit=contain%2Cformat=jpg%2C/app/cms/storage/image/path/s6a5681fc1957b232/image/i534094f697e803da/version/1683276222/portr%C3%A4t-anja-boos-beim-malen.jpg"
+                src="/images/about/anja-boos-portrait.jpg"
                 alt="Anja Boos beim Malen"
                 fill
                 className="object-cover"
