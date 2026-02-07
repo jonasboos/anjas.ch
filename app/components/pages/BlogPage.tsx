@@ -17,13 +17,13 @@ export default function BlogPage() {
           className="mb-16 text-center"
         >
           <span className="mb-4 inline-block text-xs font-medium uppercase tracking-[0.3em] text-zinc-600">
-            Neuigkeiten
+            Mein Art Blog
           </span>
           <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl">
             Art Blog
           </h1>
           <p className="mx-auto mt-4 max-w-md text-zinc-500">
-            Gedanken, Prozesse und neue Werke
+            Gedanken, Prozesse und neue Werke aus dem Atelier
           </p>
         </motion.div>
 

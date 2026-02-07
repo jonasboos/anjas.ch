@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const links = [
+  { href: "/shop", label: "Shop" },
   { href: "/gallery", label: "Galerie" },
   { href: "/videos", label: "Videos" },
   { href: "/blog", label: "Blog" },

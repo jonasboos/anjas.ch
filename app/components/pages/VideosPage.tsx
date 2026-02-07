@@ -37,13 +37,13 @@ export default function VideosPage() {
           className="mb-16 text-center"
         >
           <span className="mb-4 inline-block text-xs font-medium uppercase tracking-[0.3em] text-zinc-600">
-            Einblicke
+            Videos auf YouTube
           </span>
           <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl">
             Videos
           </h1>
           <p className="mx-auto mt-4 max-w-md text-zinc-500">
-            Begleiten Sie mich bei der Entstehung meiner Werke
+            Begleiten Sie mich bei der Entstehung meiner Werke und entdecken Sie neue Einblicke.
           </p>
         </motion.div>
 

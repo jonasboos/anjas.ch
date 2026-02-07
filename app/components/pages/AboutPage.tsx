@@ -67,6 +67,10 @@ export default function AboutPage() {
                 Als Künstlerin bin ich ständig bestrebt, mich weiterzuentwickeln und neue 
                 Techniken zu erlernen, um meine künstlerische Vision zu erweitern.
               </p>
+              <p>
+                Kontaktieren Sie mich gerne unter anja@anjas.ch oder direkt mit dem
+                Kontaktformular.
+              </p>
             </div>
 
             {/* Contact CTA */}
@@ -83,6 +87,46 @@ export default function AboutPage() {
               >
                 anja@anjas.ch
               </a>
+            </div>
+
+            <div className="mt-16 rounded-2xl border border-zinc-900 bg-zinc-950/70 p-6">
+              <span className="text-xs font-medium uppercase tracking-[0.3em] text-zinc-600">
+                Anmeldung Freundesliste / Newsletter
+              </span>
+              <p className="mt-4 text-sm text-zinc-400">
+                Bleib auf dem Laufenden ueber neue Kunstwerke und exklusive Angebote aus
+                meinem Atelier! Kein Spam, aber viel Herzlichkeit.
+              </p>
+              <form className="mt-6 grid gap-3">
+                <input
+                  type="text"
+                  placeholder="Name*"
+                  className="w-full rounded-full border border-zinc-800 bg-black/50 px-4 py-3 text-sm text-white"
+                />
+                <input
+                  type="email"
+                  placeholder="E-Mail*"
+                  className="w-full rounded-full border border-zinc-800 bg-black/50 px-4 py-3 text-sm text-white"
+                />
+                <button
+                  type="button"
+                  className="rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+                >
+                  Absenden
+                </button>
+              </form>
+              <p className="mt-3 text-xs text-zinc-600">
+                Es gilt unsere{" "}
+                <a
+                  href="https://anjas1.jimdoweb.com/j/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white underline"
+                >
+                  Datenschutzerklaerung
+                </a>
+                . Bitte die mit * gekennzeichneten Felder ausfuellen.
+              </p>
             </div>
           </motion.div>
         </div>

@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { artworks } from "@/lib/data";
+import { blogPosts } from "@/lib/blog-data";
 
 export default function HomePage() {
   const featuredArtworks = artworks.slice(0, 6);
+  const latestPosts = blogPosts.slice(0, 3);
 
   return (
     <div className="flex flex-col">
@@ -160,6 +162,137 @@ export default function HomePage() {
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-24">
+        <div className="mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl font-light tracking-tight text-white sm:text-4xl">
+            Herzlich willkommen in meiner Welt der Malerei
+          </h2>
+          <div className="mt-8 space-y-6 text-zinc-400">
+            <p>
+              Tauchen Sie ein in meine Kunstgalerie, wo jedes Bild eine Geschichte
+              erzaehlt und meine Verbundenheit zur Natur widerspiegelt. Ich lade Sie
+              ein, die Welt durch meine Augen zu erleben und meine kuenstlerische
+              Reise zu begleiten.
+            </p>
+            <p>
+              Ich hoffe, dass meine Kunstwerke Sie inspirieren und Freude in Ihr
+              Leben bringen werden. Falls Sie an einem meiner Werke interessiert sind
+              oder eine spezielle Anfrage haben, stehe ich Ihnen gerne zur Verfuegung.
+            </p>
+            <p>Herzlich willkommen in meiner Welt der Malerei!</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 text-center">
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-zinc-600">
+              Neues aus dem ArtBlog
+            </span>
+            <h2 className="mt-4 text-3xl font-light tracking-tight text-white sm:text-4xl">
+              Inspiration und neue Werke
+            </h2>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {latestPosts.map((post, index) => (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                className="rounded-2xl border border-zinc-900 bg-zinc-950/70 p-6"
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
+                  {post.date}
+                </p>
+                <h3 className="mt-3 text-lg font-semibold text-white">
+                  {post.title}
+                </h3>
+                <p className="mt-3 text-sm text-zinc-500 line-clamp-3">
+                  {post.excerpt}
+                </p>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="mt-4 inline-flex items-center text-sm text-white hover:text-zinc-300"
+                >
+                  Weiterlesen →
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-3xl border border-zinc-900 bg-zinc-950/70 p-10 text-center">
+            <h2 className="text-3xl font-light tracking-tight text-white">
+              Kunstbilder und Karten im Shop
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
+              Alle Karten sind Drucke von selbstgemalten Bildern. Originalbilder
+              folgen bald.
+            </p>
+            <Link
+              href="/shop"
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+            >
+              Zum Shop
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-32">
+        <div className="mx-auto max-w-5xl rounded-3xl border border-zinc-900 bg-zinc-950/70 p-10">
+          <div className="text-center">
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-zinc-600">
+              Anmeldung Newsletter
+            </span>
+            <h2 className="mt-4 text-3xl font-light tracking-tight text-white">
+              Bleib auf dem Laufenden
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
+              Kein Spam, aber viel Herzlichkeit. Trag dich in meine Freundesliste ein,
+              um nichts zu verpassen.
+            </p>
+          </div>
+          <form className="mt-8 grid gap-4 md:grid-cols-[1fr_1fr_auto]">
+            <input
+              type="text"
+              placeholder="Name*"
+              className="w-full rounded-full border border-zinc-800 bg-black/50 px-4 py-3 text-sm text-white"
+            />
+            <input
+              type="email"
+              placeholder="E-Mail*"
+              className="w-full rounded-full border border-zinc-800 bg-black/50 px-4 py-3 text-sm text-white"
+            />
+            <button
+              type="button"
+              className="rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+            >
+              Absenden
+            </button>
+          </form>
+          <p className="mt-4 text-xs text-zinc-600">
+            Es gilt unsere{" "}
+            <a
+              href="https://anjas1.jimdoweb.com/j/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white underline"
+            >
+              Datenschutzerklaerung
+            </a>
+            . Bitte die mit * gekennzeichneten Felder ausfuellen.
+          </p>
         </div>
       </section>
     </div>

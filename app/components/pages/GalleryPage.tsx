@@ -18,10 +18,22 @@ export default function GalleryPage() {
   return (
     <div className="container mx-auto min-h-screen px-4 py-24">
       <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Galerie</h1>
-        <p className="mx-auto max-w-2xl text-zinc-400">
-          Entdecken Sie meine Werke. Jedes Bild erzählt eine eigene Geschichte.
-        </p>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Bildergalerie</h1>
+        <div className="mx-auto max-w-3xl space-y-4 text-zinc-400">
+          <p>
+            Herzlich willkommen auf meiner ArtWork Seite, auf der ich meine neuesten
+            Kunstwerke praesentiere!
+          </p>
+          <p>
+            In meiner kuenstlerischen Arbeit lasse ich mich von verschiedenen Themen
+            inspirieren, darunter Natur, Tiere, Landschaften, Menschen und vieles mehr.
+            Jedes Kunstwerk ist einzigartig und drueckt meine kreative Leidenschaft aus.
+          </p>
+          <p>
+            Ich hoffe, dass Sie meine Kunstwerke geniessen und dass sie Sie inspirieren,
+            Ihre eigene kreative Leidenschaft zu entfachen.
+          </p>
+        </div>
       </div>
 
       {/* Filter Buttons */}
@@ -74,6 +86,51 @@ export default function GalleryPage() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      <div className="mt-16 grid gap-8 lg:grid-cols-3">
+        {[
+          {
+            title: "Malkarton",
+            items: [
+              "Berge Adelboden | Acryl auf Malkarton | 30x30cm",
+              "Bettmeralp | Acryl auf Malkarton | 24x30cm",
+              "Wintersonne | Acryl auf Malkarton | 30x30cm",
+              "Bergbach | Acryl auf Malkarton | 40x50cm",
+              "Herbstspaziergang | Acryl auf Malkarton | 40x50cm",
+              "Sommerliche Gipfel | Acryl auf Malkarton | 40x50cm",
+              "Haus im Winter | Acryl auf Malkarton | 40x50cm",
+              "Winterberg | Acryl auf Malkarton | 40x50cm",
+              "Winterbaum | Acryl auf Malkarton | 24x30cm",
+              "Schwarzsee 2 | Acryl auf Malkarton | 24x30cm",
+            ],
+          },
+          {
+            title: "Leinwand",
+            items: [
+              "Bietschhorn im Herbst | Acryl auf Leinwand | 60x80cm",
+              "Schwarzsee im Herbst | Acryl auf Leinwand | 40x50cm",
+              "Blauer Bergsee | Oel auf Leinwand | 23.5x30cm",
+            ],
+          },
+          {
+            title: "Papier",
+            items: [
+              "Portraet | Oel auf Papier | 21x29cm",
+              "Rotmilan | Tusche auf Papier | 30x42cm",
+              "Ente | Tusche auf Papier | 30x42cm",
+            ],
+          },
+        ].map((section) => (
+          <div key={section.title} className="rounded-2xl border border-zinc-900 bg-zinc-950/70 p-6">
+            <h2 className="text-lg font-semibold text-white">{section.title}</h2>
+            <ul className="mt-4 space-y-2 text-sm text-zinc-400">
+              {section.items.map((item) => (
+                <li key={item}>- {item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
