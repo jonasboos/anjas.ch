@@ -136,8 +136,10 @@ export default function ShopPage() {
                 aria-pressed={selected}
                 onClick={() => setActiveCategory(category)}
                 className={cn(
-                  "text-[0.72rem] uppercase tracking-[0.2em]",
-                  selected ? "text-ink" : "text-muted hover:text-ink"
+                  "text-[0.72rem] uppercase tracking-[0.2em] transition-colors",
+                  selected
+                    ? "text-ink underline decoration-ink/40 underline-offset-8"
+                    : "text-muted hover:text-ink"
                 )}
               >
                 {category}

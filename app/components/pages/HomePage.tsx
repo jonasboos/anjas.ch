@@ -49,7 +49,7 @@ export default function HomePage() {
               priority
               sizes="(max-width: 1024px) 100vw, 58vw"
             />
-            <figcaption className="mt-4 flex items-baseline justify-between gap-4">
+            <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <span className="font-serif text-2xl text-ink">{hero.title}</span>
               <span className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">
                 {hero.category}

@@ -54,8 +54,10 @@ export default function GalleryPage() {
                 aria-pressed={selected}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  "text-[0.72rem] uppercase tracking-[0.2em]",
-                  selected ? "text-ink" : "text-muted hover:text-ink"
+                  "text-[0.72rem] uppercase tracking-[0.2em] transition-colors",
+                  selected
+                    ? "text-ink underline decoration-ink/40 underline-offset-8"
+                    : "text-muted hover:text-ink"
                 )}
               >
                 {filter}
