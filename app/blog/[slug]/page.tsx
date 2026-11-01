@@ -18,27 +18,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${post.title} | Anja Boos Art Blog`,
+    title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://anjas.ch/blog/${post.slug}`,
-      siteName: "Anja Boos Art",
+      url: `/blog/${post.slug}`,
+      type: "article",
       images: [
         {
           url: post.imageUrl,
-          width: 1200,
-          height: 630,
-          alt: `${post.title} - Acrylmalerei`,
+          width: post.width,
+          height: post.height,
+          alt: post.title,
         },
       ],
-      type: "article",
-      publishedTime: "2024-01-01", // Placeholder year, ideally from post.date
-      authors: ["Anja Boos"],
-    },
-    alternates: {
-      canonical: `https://anjas.ch/blog/${post.slug}`,
     },
   };
 }

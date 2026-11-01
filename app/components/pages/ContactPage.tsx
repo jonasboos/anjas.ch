@@ -1,150 +1,167 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
-import { Mail, MapPin, Instagram, ExternalLink } from "lucide-react";
+import { shell, site } from "@/lib/site";
 
 export default function ContactPage() {
   const searchParams = useSearchParams();
-  const [message, setMessage] = useState("");
+  const prefill = searchParams.get("message") ?? "";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState(prefill);
+  const [seenPrefill, setSeenPrefill] = useState(prefill);
+  const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
 
-  useEffect(() => {
-    const prefill = searchParams.get("message");
-    if (prefill) {
-      setMessage(prefill);
+  if (prefill !== seenPrefill) {
+    setSeenPrefill(prefill);
+    setMessage(prefill);
+  }
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setError("Bitte die mit * gekennzeichneten Felder ausfüllen.");
+      setSent(false);
+      return;
     }
-  }, [searchParams]);
+    const body = encodeURIComponent(`Name: ${name.trim()}\nE-Mail: ${email.trim()}\n\n${message.trim()}`);
+    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent("Nachricht von anjas.ch")}&body=${body}`;
+    setError("");
+    setSent(true);
+  };
 
   return (
-    <div className="container mx-auto min-h-screen px-4 py-24">
-      <div className="mx-auto max-w-4xl">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.6 }}
-           className="text-center mb-16"
-        >
-          <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">Kontakt</h1>
-          <p className="text-zinc-400">
-            Ich freue mich, von dir zu hoeren! Ob du Fragen zu meinen Kunstwerken hast,
-            an einer Auftragsarbeit interessiert bist oder einfach mehr ueber meine
-            Projekte erfahren moechtest – melde dich jederzeit.
+    <div className="py-14 md:py-20">
+      <div className={shell}>
+        <header className="max-w-2xl">
+          <p className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-muted">Atelier</p>
+          <h1 className="mt-3 font-serif text-5xl text-ink sm:text-7xl">Kontakt</h1>
+          <p className="mt-6 text-base leading-relaxed text-muted md:text-lg">
+            Ich freue mich, von dir zu hören! Ob du Fragen zu meinen Kunstwerken hast,
+            an einer Auftragsarbeit interessiert bist oder einfach mehr über meine
+            Projekte erfahren möchtest – melde dich jederzeit.
           </p>
-        </motion.div>
+        </header>
 
-        <div className="grid gap-12 md:grid-cols-2">
-          {/* Contact Details */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-8"
-          >
+        <div className="mt-14 grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="space-y-10">
             <div>
-              <h3 className="mb-4 text-xl font-semibold">Erreichen Sie mich</h3>
-              <div className="space-y-4">
-                <a href="mailto:anja@anjas.ch" className="flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900">
-                    <Mail className="h-5 w-5" />
-                  </div>
-                  <span>anja@anjas.ch</span>
+              <h2 className="font-serif text-3xl text-ink">Erreichen Sie mich</h2>
+              <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
+                <a className="block w-fit text-ink hover:text-spruce" href={`mailto:${site.email}`}>
+                  {site.email}
                 </a>
-                <div className="flex items-center gap-3 text-zinc-400">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <span>Wankdorffeldstrasse 90 | 3014 Bern | Raum 305</span>
-                </div>
-                <p className="text-sm text-zinc-500">
-                  Besuch im Atelier nach Terminabsprache. Kontaktiere mich gerne fuer
+                <p>{site.studio}</p>
+                <p>
+                  Besuch im Atelier nach Terminabsprache. Kontaktiere mich gerne für
                   eine Terminvereinbarung.
                 </p>
               </div>
             </div>
-
             <div>
-              <h3 className="mb-4 text-xl font-semibold">Social Media</h3>
-              <div className="flex gap-4">
+              <h2 className="font-serif text-3xl text-ink">Social Media</h2>
+              <div className="mt-5 flex flex-wrap gap-4 text-[0.72rem] uppercase tracking-[0.18em]">
                 <a
-                  href="https://www.instagram.com/anjas_ch/"
+                  href={site.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors"
+                  className="border border-line px-4 py-2 hover:border-ink"
                 >
-                  <Instagram className="h-4 w-4" />
                   Instagram
+                  <span className="sr-only"> (öffnet in neuem Tab)</span>
                 </a>
                 <a
-                  href="https://www.saatchiart.com/AnjaBoos"
+                  href={site.saatchi}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors"
+                  className="border border-line px-4 py-2 hover:border-ink"
                 >
-                  <ExternalLink className="h-4 w-4" />
                   Saatchi Art
+                  <span className="sr-only"> (öffnet in neuem Tab)</span>
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Contact Form */}
-          <motion.div
-             initial={{ opacity: 0, x: 20 }}
-             animate={{ opacity: 1, x: 0 }}
-             transition={{ duration: 0.6, delay: 0.4 }}
-             className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-8"
-          >
-            <form className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-zinc-300">Name*</label>
-                <input 
-                  type="text" 
+          <form onSubmit={onSubmit} noValidate className="bg-mat p-6 ring-1 ring-ink/8 sm:p-10">
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="name" className="text-[0.68rem] uppercase tracking-[0.18em] text-muted">
+                  Name*
+                </label>
+                <input
                   id="name"
-                  className="w-full rounded-md border border-zinc-800 bg-black/50 px-4 py-3 text-white placeholder-zinc-600 focus:border-white focus:outline-none focus:ring-0"
-                  placeholder="Ihr Name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  required
+                  className="mt-2 w-full border-b border-line bg-transparent py-3 text-ink"
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-zinc-300">E-Mail*</label>
-                <input 
-                  type="email" 
+              <div>
+                <label htmlFor="email" className="text-[0.68rem] uppercase tracking-[0.18em] text-muted">
+                  E-Mail*
+                </label>
+                <input
                   id="email"
-                  className="w-full rounded-md border border-zinc-800 bg-black/50 px-4 py-3 text-white placeholder-zinc-600 focus:border-white focus:outline-none focus:ring-0"
-                  placeholder="ihre.email@beispiel.com"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
+                  className="mt-2 w-full border-b border-line bg-transparent py-3 text-ink"
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-zinc-300">Nachricht*</label>
-                <textarea 
+              <div>
+                <label htmlFor="message" className="text-[0.68rem] uppercase tracking-[0.18em] text-muted">
+                  Nachricht*
+                </label>
+                <textarea
                   id="message"
-                  rows={4}
+                  name="message"
+                  rows={6}
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
-                  className="w-full rounded-md border border-zinc-800 bg-black/50 px-4 py-3 text-white placeholder-zinc-600 focus:border-white focus:outline-none focus:ring-0"
-                  placeholder="Ihre Nachricht an mich..."
+                  required
+                  className="mt-2 w-full border-b border-line bg-transparent py-3 text-ink"
                 />
               </div>
-              <p className="text-xs text-zinc-500">
-                Es gilt unsere{" "}
-                <a
-                  href="https://anjas1.jimdoweb.com/j/privacy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white underline"
-                >
-                  Datenschutzerklaerung
-                </a>
-                . Bitte die mit * gekennzeichneten Felder ausfuellen.
-              </p>
-              <button 
-                type="button"
-                className="w-full rounded-full bg-white py-3 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-muted">
+              Es gilt unsere{" "}
+              <a
+                href={site.privacy}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4"
               >
-                Nachricht senden
-              </button>
-            </form>
-          </motion.div>
+                Datenschutzerklärung
+                <span className="sr-only"> (öffnet in neuem Tab)</span>
+              </a>
+              . Bitte die mit * gekennzeichneten Felder ausfüllen.
+            </p>
+            {error ? (
+              <p role="alert" className="mt-4 text-sm text-danger">
+                {error}
+              </p>
+            ) : null}
+            {sent ? (
+              <p role="status" className="mt-4 text-sm text-muted">
+                Ihr E-Mail-Programm öffnet sich mit der Nachricht. Falls nicht, schreiben Sie an {site.email}.
+              </p>
+            ) : null}
+            <button
+              type="submit"
+              className="mt-8 bg-ink px-7 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-paper hover:bg-spruce"
+            >
+              Nachricht senden
+            </button>
+          </form>
         </div>
       </div>
     </div>
