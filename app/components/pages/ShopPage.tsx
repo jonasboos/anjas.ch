@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
-import { shopProducts } from "@/lib/shop-data";
+import {
+  greetingCards,
+  originalBilder,
+  shopIntro,
+  type BildMedium,
+  type ShopProduct,
+} from "@/lib/shop-data";
 import { shell, site } from "@/lib/site";
 import { cn, formatCHF } from "@/lib/utils";
 
-const categories = ["Alle", "Blumen", "Mandala", "Landschaft", "Tier"] as const;
 const paymentOptions = ["Paypal", "Banküberweisung", "Twint", "Abholung"] as const;
+const bildGroups: BildMedium[] = ["Malkarton", "Leinwand", "Papier"];
 
 type CartState = Record<string, number>;
 type PaymentOption = (typeof paymentOptions)[number];
@@ -21,8 +28,22 @@ type OrderForm = {
   pickup: boolean;
 };
 
+function stockLabel(product: ShopProduct) {
+  if (product.stock == null) return null;
+  return `${product.stock} verfügbar`;
+}
+
+
+function openMail(url: string) {
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.rel = "noopener";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+}
+
 export default function ShopPage() {
-  const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("Alle");
   const [cart, setCart] = useState<CartState>({});
   const [orderError, setOrderError] = useState("");
   const [form, setForm] = useState<OrderForm>({
@@ -34,20 +55,15 @@ export default function ShopPage() {
     pickup: false,
   });
 
-  const filteredProducts = useMemo(() => {
-    if (activeCategory === "Alle") return shopProducts;
-    return shopProducts.filter((product) => product.category === activeCategory);
-  }, [activeCategory]);
-
   const cartItems = useMemo(() => {
     return Object.entries(cart)
       .map(([productId, quantity]) => {
-        const product = shopProducts.find((item) => item.id === productId);
-        if (!product) return null;
+        const product = greetingCards.find((item) => item.id === productId);
+        if (!product || product.price == null) return null;
         return { product, quantity, total: product.price * quantity };
       })
       .filter(Boolean) as Array<{
-      product: (typeof shopProducts)[number];
+      product: ShopProduct;
       quantity: number;
       total: number;
     }>;
@@ -58,18 +74,51 @@ export default function ShopPage() {
   const total = subtotal + shipping;
 
   const addToCart = (productId: string) => {
-    setCart((prev) => ({ ...prev, [productId]: (prev[productId] ?? 0) + 1 }));
+    const product = greetingCards.find((item) => item.id === productId);
+    if (!product || product.price == null) return;
+    setCart((prev) => {
+      const current = prev[productId] ?? 0;
+      const nextQty = product.stock != null ? Math.min(current + 1, product.stock) : current + 1;
+      return { ...prev, [productId]: nextQty };
+    });
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
+    const product = greetingCards.find((item) => item.id === productId);
     setCart((prev) => {
       if (quantity <= 0) {
         const next = { ...prev };
         delete next[productId];
         return next;
       }
-      return { ...prev, [productId]: quantity };
+      const capped =
+        product?.stock != null ? Math.min(quantity, product.stock) : quantity;
+      return { ...prev, [productId]: capped };
     });
+  };
+
+  const enquireArtwork = (product: ShopProduct) => {
+    const subject = encodeURIComponent(`Anfrage Originalbild: ${product.name}`);
+    const details = [
+      product.medium,
+      product.size ? `Masse: ${product.size}` : null,
+      ...product.description,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const body = encodeURIComponent(
+      [
+        `Hallo Anja,`,
+        ``,
+        `Ich interessiere mich für das Originalbild «${product.name}».`,
+        details ? `\n${details}` : "",
+        ``,
+        `Könntest du mir bitte Preis und Verfügbarkeit mitteilen?`,
+        ``,
+        `Freundliche Grüsse`,
+      ].join("\n")
+    );
+    openMail(`mailto:${site.orderEmail}?subject=${subject}&body=${body}`);
   };
 
   const orderMessage = useMemo(() => {
@@ -80,7 +129,7 @@ export default function ShopPage() {
       "Artikel:",
       ...cartItems.map(
         (item) =>
-          `- ${item.quantity}x ${item.product.name} (${formatCHF(item.product.price)}) = ${formatCHF(item.total)}`
+          `- ${item.quantity}x ${item.product.name} (${formatCHF(item.product.price!)}) = ${formatCHF(item.total)}`
       ),
       "",
       `Zwischensumme: ${formatCHF(subtotal)}`,
@@ -110,7 +159,7 @@ export default function ShopPage() {
     }
     const subject = encodeURIComponent("Bestellung anjas.ch");
     const body = encodeURIComponent(orderMessage);
-    window.location.href = `mailto:${site.orderEmail}?subject=${subject}&body=${body}`;
+    openMail(`mailto:${site.orderEmail}?subject=${subject}&body=${body}`);
     setOrderError("");
   };
 
@@ -119,77 +168,131 @@ export default function ShopPage() {
       <div className={shell}>
         <header className="max-w-2xl">
           <p className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-muted">Shop</p>
-          <h1 className="mt-3 font-serif text-5xl text-ink sm:text-7xl">Kunstbilder und Karten</h1>
+          <h1 className="mt-3 font-serif text-5xl text-ink sm:text-7xl">Grusskarten und Originalbilder</h1>
           <p className="mt-5 text-lg text-muted">
-            Originalbilder folgen bald. Aktuell sind Grusskarten als hochwertige Drucke
-            meiner selbstgemalten Bilder verfügbar.
+            Oben die Grusskarten mit Mengenangabe, unten die Originalbilder auf Malkarton,
+            Leinwand und Papier — wie im bisherigen Shop.
           </p>
         </header>
 
-        <div className="mt-10 flex flex-wrap gap-x-5 gap-y-3 border-y border-line py-4" role="toolbar" aria-label="Kategorien">
-          {categories.map((category) => {
-            const selected = activeCategory === category;
-            return (
-              <button
-                key={category}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => setActiveCategory(category)}
-                className={cn(
-                  "text-[0.72rem] uppercase tracking-[0.2em] transition-colors",
-                  selected
-                    ? "text-ink underline decoration-ink/40 underline-offset-8"
-                    : "text-muted hover:text-ink"
-                )}
-              >
-                {category}
-              </button>
-            );
-          })}
-        </div>
-
         <div className="mt-12 grid gap-14 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,0.8fr)]">
-          <ul className="grid gap-10 sm:grid-cols-2">
-            {filteredProducts.map((product) => (
-              <li key={product.id} className="flex flex-col">
-                <div className="bg-mat p-3 ring-1 ring-ink/8">
-                  <Image
-                    src={product.imageUrl}
-                    alt={product.name}
-                    width={product.width}
-                    height={product.height}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 28vw"
-                    className="h-auto w-full"
-                  />
-                </div>
-                <p className="mt-4 text-[0.68rem] uppercase tracking-[0.2em] text-muted">
-                  {product.category}
+          <div className="space-y-20">
+            <section aria-labelledby="grusskarten-heading">
+              <div className="max-w-2xl">
+                <p className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-muted">
+                  Grusskarten
                 </p>
-                <h2 className="mt-1 font-serif text-3xl text-ink">{product.name}</h2>
-                <p className="mt-2 text-sm text-muted">
-                  {formatCHF(product.price)} · Lieferzeit {product.deliveryTime}
+                <h2 id="grusskarten-heading" className="mt-2 font-serif text-4xl text-ink sm:text-5xl">
+                  Grusskarten
+                </h2>
+                <p className="mt-3 text-muted">{shopIntro.cardsSubtitle}</p>
+              </div>
+
+              <ul className="mt-10 grid gap-10 sm:grid-cols-2">
+                {greetingCards.map((product) => (
+                  <li key={product.id} className="flex flex-col">
+                    <div className="bg-mat p-3 ring-1 ring-ink/8">
+                      <Image
+                        src={product.imageUrl}
+                        alt={`${product.name}, Grusskarte, Druck von Anja Boos`}
+                        width={product.width}
+                        height={product.height}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 28vw"
+                        className="h-auto w-full"
+                      />
+                    </div>
+                    <p className="mt-4 text-[0.68rem] uppercase tracking-[0.2em] text-muted">
+                      {product.category}
+                    </p>
+                    <h3 className="mt-1 font-serif text-3xl text-ink">{product.name}</h3>
+                    <p className="mt-2 text-sm text-muted">
+                      {formatCHF(product.price!)}
+                      {product.deliveryTime ? ` · Lieferzeit ${product.deliveryTime}` : ""}
+                    </p>
+                    {stockLabel(product) ? (
+                      <p className="mt-1 text-sm text-ink/80">{stockLabel(product)}</p>
+                    ) : null}
+                    <ul className="mt-3 space-y-1 text-sm text-muted">
+                      {product.description.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => addToCart(product.id)}
+                      disabled={product.stock === 0}
+                      className="mt-5 w-fit bg-ink px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-paper hover:bg-spruce disabled:cursor-not-allowed disabled:bg-paper-deep disabled:text-muted"
+                    >
+                      In den Warenkorb
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section aria-labelledby="bilder-heading" className="border-t border-line pt-16">
+              <div className="max-w-2xl">
+                <p className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-muted">
+                  Originalbilder
                 </p>
-                <ul className="mt-3 space-y-1 text-sm text-muted">
-                  {product.description.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  onClick={() => addToCart(product.id)}
-                  className="mt-5 w-fit bg-ink px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-paper hover:bg-spruce"
-                >
-                  In den Warenkorb
-                </button>
-              </li>
-            ))}
-          </ul>
+                <h2 id="bilder-heading" className="mt-2 font-serif text-4xl text-ink sm:text-5xl">
+                  Bilder
+                </h2>
+                <p className="mt-3 text-muted">
+                  Originalbilder auf Malkarton, Leinwand und Papier zum Verkauf —
+                  Preis auf Anfrage.
+                </p>
+              </div>
+
+              {bildGroups.map((group) => {
+                const items = originalBilder.filter((item) => item.category === group);
+                if (items.length === 0) return null;
+                return (
+                  <div key={group} className="mt-12">
+                    <h3 className="font-serif text-3xl text-ink">{group}</h3>
+                    <ul className="mt-8 grid gap-10 sm:grid-cols-2 xl:grid-cols-3">
+                      {items.map((product) => (
+                        <li key={product.id} className="flex flex-col">
+                          <div className="bg-mat p-3 ring-1 ring-ink/8">
+                            <Image
+                              src={product.imageUrl}
+                              alt={
+                                product.medium
+                                  ? `${product.name} | ${product.medium}${product.size ? ` | ${product.size}` : ""}`
+                                  : product.name
+                              }
+                              width={product.width}
+                              height={product.height}
+                              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 40vw, 28vw"
+                              className="h-auto w-full"
+                            />
+                          </div>
+                          <h4 className="mt-4 font-serif text-2xl text-ink">{product.name}</h4>
+                          <ul className="mt-2 space-y-1 text-sm text-muted">
+                            {product.description.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                          <button
+                            type="button"
+                            onClick={() => enquireArtwork(product)}
+                            className="mt-5 w-fit border border-ink px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ink hover:bg-ink hover:text-paper"
+                          >
+                            Preis auf Anfrage
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+            </section>
+          </div>
 
           <aside className="h-fit bg-mat p-6 ring-1 ring-ink/8 lg:sticky lg:top-24">
             <h2 className="font-serif text-3xl text-ink">Warenkorb</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Versandkosten: CHF 2.00 pro Bestellung in die Schweiz, versandkostenfrei
-              ab CHF 35.00.
+              {shopIntro.shippingNote}
             </p>
 
             <div className="mt-6 space-y-4" aria-live="polite">
@@ -201,7 +304,7 @@ export default function ShopPage() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm text-ink">{item.product.name}</p>
-                        <p className="text-xs text-muted">{formatCHF(item.product.price)}</p>
+                        <p className="text-xs text-muted">{formatCHF(item.product.price!)}</p>
                       </div>
                       <p className="text-sm text-ink">{formatCHF(item.total)}</p>
                     </div>
@@ -257,7 +360,9 @@ export default function ShopPage() {
                   Bestelldaten
                 </legend>
                 <div>
-                  <label htmlFor="order-name" className="sr-only">Name</label>
+                  <label htmlFor="order-name" className="sr-only">
+                    Name
+                  </label>
                   <input
                     id="order-name"
                     type="text"
@@ -269,7 +374,9 @@ export default function ShopPage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="order-email" className="sr-only">E-Mail</label>
+                  <label htmlFor="order-email" className="sr-only">
+                    E-Mail
+                  </label>
                   <input
                     id="order-email"
                     type="email"
@@ -281,7 +388,9 @@ export default function ShopPage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="order-address" className="sr-only">Adresse</label>
+                  <label htmlFor="order-address" className="sr-only">
+                    Adresse
+                  </label>
                   <textarea
                     id="order-address"
                     rows={3}
@@ -330,7 +439,9 @@ export default function ShopPage() {
               </label>
 
               <div>
-                <label htmlFor="order-note" className="sr-only">Notiz</label>
+                <label htmlFor="order-note" className="sr-only">
+                  Notiz
+                </label>
                 <textarea
                   id="order-note"
                   rows={3}
@@ -359,11 +470,8 @@ export default function ShopPage() {
         </div>
 
         <div className="mt-16 max-w-3xl space-y-4 text-sm leading-relaxed text-muted">
-          <p>
-            Alle Artikel können mit Paypal, Banküberweisung oder Twint bezahlt
-            werden. Ausserdem ist eine Abholung in Belp oder Bern möglich. Bei Fragen
-            kontaktiere mich gerne über das Kontaktformular!
-          </p>
+          <p>{shopIntro.paymentNote}</p>
+          <p>{shopIntro.thanksNote}</p>
           <p>
             Weitere Originalbilder zu verkaufen auf Saatchi Art:{" "}
             <a
@@ -375,6 +483,13 @@ export default function ShopPage() {
               Link zu Saatchi Art
               <span className="sr-only"> (öffnet in neuem Tab)</span>
             </a>
+          </p>
+          <p>
+            Fragen zu Originalbildern auch über das{" "}
+            <Link href="/contact" className="underline underline-offset-4">
+              Kontaktformular
+            </Link>
+            .
           </p>
         </div>
       </div>

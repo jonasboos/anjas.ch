@@ -29,15 +29,17 @@ export function ArtworkGrid({
                 <span className="block bg-mat p-3 ring-1 ring-ink/8 shadow-[0_18px_50px_-32px_rgba(27,25,22,0.55)] transition-transform duration-500 group-hover:-translate-y-1">
                   <Image
                     src={art.src}
-                    alt={art.title}
+                    alt={art.alt}
                     width={art.width}
                     height={art.height}
                     sizes={sizes}
                     className="h-auto w-full"
+                    loading="lazy"
                   />
                 </span>
                 <span className="sr-only">
-                  {art.category}. Vergrössern
+                  {art.mediumLabel}
+                  {art.size ? `, ${art.size}` : ""}. Vergrössern
                 </span>
                 <span aria-hidden="true" className="mt-4 block font-serif text-[1.7rem] leading-tight text-ink">
                   {art.title}
@@ -46,7 +48,8 @@ export function ArtworkGrid({
                   aria-hidden="true"
                   className="mt-1 block text-[0.68rem] uppercase tracking-[0.22em] text-muted"
                 >
-                  {art.category}
+                  {art.mediumLabel}
+                  {art.size ? ` · ${art.size}` : ""}
                 </span>
               </button>
             </figure>
@@ -54,7 +57,19 @@ export function ArtworkGrid({
         ))}
       </ul>
       {index !== null ? (
-        <Lightbox items={artworks} index={index} onClose={close} onIndex={setIndex} />
+        <Lightbox
+          items={artworks.map((art) => ({
+            src: art.src,
+            title: art.title,
+            category: [art.mediumLabel, art.size].filter(Boolean).join(" · "),
+            width: art.width,
+            height: art.height,
+            alt: art.alt,
+          }))}
+          index={index}
+          onClose={close}
+          onIndex={setIndex}
+        />
       ) : null}
     </>
   );

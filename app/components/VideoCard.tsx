@@ -26,7 +26,7 @@ export function VideoCard({ id, title }: { id: string; title: string }) {
           >
             <Image
               src={poster}
-              alt=""
+              alt={`Video-Vorschaubild: ${title}`}
               fill
               unoptimized
               sizes="(max-width: 768px) 100vw, 50vw"

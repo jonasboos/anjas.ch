@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import AboutPage from "@/app/components/pages/AboutPage";
+import { JsonLdScript } from "@/app/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/json-ld";
+import { buildPageMetadata, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Über mich",
-  description:
-    "Erfahren Sie mehr über die Künstlerin Anja Boos, ihre Inspiration aus der Natur und ihren kreativen Prozess.",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title: "Über mich | Anja Boos",
-    description: "Die Geschichte und der kreative Prozess der Künstlerin Anja Boos.",
-    url: "/about",
-  },
-};
+export const metadata: Metadata = buildPageMetadata(pageSeo.about);
 
 export default function Page() {
-  return <AboutPage />;
+  return (
+    <>
+      <AboutPage />
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Über mich", path: "/about" },
+        ])}
+      />
+    </>
+  );
 }

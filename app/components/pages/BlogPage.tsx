@@ -28,7 +28,7 @@ export default function BlogPage() {
                   <span className="block overflow-hidden bg-mat ring-1 ring-ink/8">
                     <Image
                       src={post.imageUrl}
-                      alt=""
+                      alt={`${post.title}, Art Blog von Anja Boos`}
                       width={post.width}
                       height={post.height}
                       sizes="(max-width: 768px) 100vw, 280px"

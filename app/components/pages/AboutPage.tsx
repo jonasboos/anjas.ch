@@ -11,7 +11,7 @@ export default function AboutPage() {
           <div className="bg-mat p-3 ring-1 ring-ink/8">
             <Image
               src="/images/about/anja-boos-portrait.jpg"
-              alt="Anja Boos beim Malen"
+              alt="Anja Boos, Künstlerin aus der Region Bern, beim Malen"
               width={960}
               height={1280}
               priority
