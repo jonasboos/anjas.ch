@@ -9,6 +9,7 @@ export type LightboxItem = {
   category?: string;
   width: number;
   height: number;
+  alt?: string;
 };
 
 type LightboxProps = {
@@ -107,7 +108,7 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
           >
             <Image
               src={item.src}
-              alt={item.title}
+              alt={item.alt || item.title}
               width={item.width}
               height={item.height}
               sizes={zoom ? "160vw" : "100vw"}

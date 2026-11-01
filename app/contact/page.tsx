@@ -1,23 +1,24 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import ContactPage from "@/app/components/pages/ContactPage";
+import { JsonLdScript } from "@/app/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/json-ld";
+import { buildPageMetadata, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Kontakt",
-  description:
-    "Kontaktieren Sie Anja Boos für Anfragen zu Kunstwerken, Auftragsarbeiten oder Kooperationen. Atelier in Bern.",
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: "Kontakt | Anja Boos",
-    description: "Atelier in Bern. Anfragen an anja@anjas.ch.",
-    url: "/contact",
-  },
-};
+export const metadata: Metadata = buildPageMetadata(pageSeo.contact);
 
 export default function Contact() {
   return (
-    <Suspense>
-      <ContactPage />
-    </Suspense>
+    <>
+      <Suspense>
+        <ContactPage />
+      </Suspense>
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Kontakt", path: "/contact" },
+        ])}
+      />
+    </>
   );
 }

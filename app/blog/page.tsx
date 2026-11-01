@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import BlogPage from "@/app/components/pages/BlogPage";
+import { JsonLdScript } from "@/app/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/json-ld";
+import { buildPageMetadata, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Lesen Sie den Art Blog von Anja Boos. Neuigkeiten, Gedanken und Einblicke in aktuelle Projekte.",
-  alternates: { canonical: "/blog" },
-  openGraph: {
-    title: "Blog | Anja Boos",
-    description: "Neuigkeiten, Gedanken und Einblicke in aktuelle Projekte.",
-    url: "/blog",
-  },
-};
+export const metadata: Metadata = buildPageMetadata(pageSeo.blog);
 
 export default function Page() {
-  return <BlogPage />;
+  return (
+    <>
+      <BlogPage />
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+        ])}
+      />
+    </>
+  );
 }

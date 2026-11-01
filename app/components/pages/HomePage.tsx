@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { artworks } from "@/lib/data";
+import { galleryArtworks } from "@/lib/data";
 import { blogPosts } from "@/lib/blog-data";
 import { shell } from "@/lib/site";
 import { ArtworkGrid } from "../ArtworkGrid";
@@ -8,8 +8,10 @@ import { NewsletterForm } from "../NewsletterForm";
 import { ZoomableArtwork } from "../ZoomableArtwork";
 
 export default function HomePage() {
-  const hero = artworks.find((art) => art.id === "7") ?? artworks[0];
-  const featured = artworks.filter((art) => art.id !== hero.id).slice(0, 6);
+  const hero =
+    galleryArtworks.find((art) => art.id === "shop-bietschhorn-im-herbst-acryl-auf-leinwand-60x80cm") ??
+    galleryArtworks[0];
+  const featured = galleryArtworks.filter((art) => art.id !== hero.id).slice(0, 6);
   const latestPosts = blogPosts.slice(0, 3);
 
   return (
@@ -26,13 +28,13 @@ export default function HomePage() {
         <div className={`${shell} relative grid items-end gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16`}>
           <div className="rise">
             <p className="text-[0.7rem] font-medium uppercase tracking-[0.32em] text-muted">
-              Künstlerin · Schweiz
+              Künstlerin · Region Bern
             </p>
             <h1 className="mt-5 font-serif text-6xl leading-[0.88] text-ink sm:text-8xl lg:text-[6.5rem]">
               Anja Boos
             </h1>
             <p className="mt-6 max-w-sm text-lg leading-relaxed text-muted">
-              Acrylmalerei inspiriert von der Natur
+              Acrylbilder, Mandalas und Grusskarten aus Belp und der Region Bern
             </p>
             <Link
               href="/gallery"
@@ -52,7 +54,7 @@ export default function HomePage() {
             <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <span className="font-serif text-2xl text-ink">{hero.title}</span>
               <span className="text-[0.68rem] uppercase tracking-[0.22em] text-muted">
-                {hero.category}
+                {hero.mediumLabel}
               </span>
             </figcaption>
           </figure>
@@ -121,7 +123,7 @@ export default function HomePage() {
                     <span className="block overflow-hidden bg-mat ring-1 ring-ink/8">
                       <Image
                         src={post.imageUrl}
-                        alt=""
+                        alt={`${post.title}, Art Blog von Anja Boos`}
                         width={post.width}
                         height={post.height}
                         sizes="(max-width: 768px) 100vw, 33vw"

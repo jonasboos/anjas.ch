@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
-export const ogAlt = "Anja Boos, Acrylmalerei aus der Schweiz";
+export const ogAlt = "Anja Boos, Künstlerin aus der Region Bern – Acrylmalerei";
 
 export async function renderOgImage() {
   const image = await readFile(

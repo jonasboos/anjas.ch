@@ -23,7 +23,7 @@ export function ZoomableArtwork({
         <span className="block bg-mat p-2 ring-1 ring-ink/8 sm:p-3">
           <Image
             src={art.src}
-            alt={art.title}
+            alt={art.alt}
             width={art.width}
             height={art.height}
             priority={priority}
@@ -34,7 +34,21 @@ export function ZoomableArtwork({
         <span className="sr-only">. Vergrössern</span>
       </button>
       {open ? (
-        <Lightbox items={[art]} index={0} onClose={close} onIndex={() => undefined} />
+        <Lightbox
+          items={[
+            {
+              src: art.src,
+              title: art.title,
+              category: [art.mediumLabel, art.size].filter(Boolean).join(" · "),
+              width: art.width,
+              height: art.height,
+              alt: art.alt,
+            },
+          ]}
+          index={0}
+          onClose={close}
+          onIndex={() => undefined}
+        />
       ) : null}
     </>
   );

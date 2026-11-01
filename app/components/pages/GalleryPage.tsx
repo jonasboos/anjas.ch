@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { artworks, catalogue } from "@/lib/data";
+import { galleryArtworks, type ArtworkMedium } from "@/lib/data";
 import { shell } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { ArtworkGrid } from "../ArtworkGrid";
 
-const filters = ["Alle", "Landschaft", "Pflanzen", "Tiere", "Mandala", "Andere"] as const;
+const filters = ["Alle", "Malkarton", "Leinwand", "Papier", "Weitere"] as const;
 
 export default function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState<(typeof filters)[number]>("Alle");
   const filtered =
     activeFilter === "Alle"
-      ? artworks
-      : artworks.filter((art) => art.category === activeFilter);
+      ? galleryArtworks
+      : galleryArtworks.filter((art) => art.medium === (activeFilter as ArtworkMedium));
 
   return (
     <div className="py-14 md:py-20">
@@ -25,17 +25,12 @@ export default function GalleryPage() {
           <h1 className="mt-3 font-serif text-5xl text-ink sm:text-7xl">Bildergalerie</h1>
           <div className="mt-8 space-y-4 text-base leading-relaxed text-muted md:text-lg">
             <p>
-              Herzlich willkommen auf meiner ArtWork Seite, auf der ich meine neuesten
-              Kunstwerke präsentiere!
+              Alle Werke einzeln: Originalbilder auf Malkarton, Leinwand und Papier sowie
+              weitere Arbeiten der Künstlerin Anja Boos aus der Region Bern und Belp.
             </p>
             <p>
-              In meiner künstlerischen Arbeit lasse ich mich von verschiedenen Themen
-              inspirieren, darunter Natur, Tiere, Landschaften, Menschen und vieles mehr.
-              Jedes Kunstwerk ist einzigartig und drückt meine kreative Leidenschaft aus.
-            </p>
-            <p>
-              Ich hoffe, dass Sie meine Kunstwerke geniessen und dass sie Sie inspirieren,
-              Ihre eigene kreative Leidenschaft zu entfachen.
+              Filtern Sie nach Medium. Tippen oder klicken Sie auf ein Bild, um es in der
+              Vollansicht zu öffnen.
             </p>
           </div>
         </header>
@@ -43,10 +38,14 @@ export default function GalleryPage() {
         <div
           className="mt-12 flex flex-wrap gap-x-5 gap-y-3 border-y border-line py-4"
           role="toolbar"
-          aria-label="Kategorien"
+          aria-label="Medium filtern"
         >
           {filters.map((filter) => {
             const selected = activeFilter === filter;
+            const count =
+              filter === "Alle"
+                ? galleryArtworks.length
+                : galleryArtworks.filter((art) => art.medium === filter).length;
             return (
               <button
                 key={filter}
@@ -61,6 +60,7 @@ export default function GalleryPage() {
                 )}
               >
                 {filter}
+                <span className="ml-2 text-muted">({count})</span>
               </button>
             );
           })}
@@ -73,24 +73,6 @@ export default function GalleryPage() {
             <ArtworkGrid key={activeFilter} artworks={filtered} />
           )}
         </div>
-
-        <section className="mt-24 border-t border-line pt-16" aria-labelledby="werkverzeichnis">
-          <h2 id="werkverzeichnis" className="font-serif text-4xl text-ink sm:text-5xl">
-            Werkverzeichnis
-          </h2>
-          <div className="mt-10 grid gap-12 md:grid-cols-3">
-            {catalogue.map((section) => (
-              <div key={section.title}>
-                <h3 className="font-serif text-2xl text-ink">{section.title}</h3>
-                <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted">
-                  {section.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
     </div>
   );

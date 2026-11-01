@@ -194,7 +194,7 @@ export default function ShopPage() {
                     <div className="bg-mat p-3 ring-1 ring-ink/8">
                       <Image
                         src={product.imageUrl}
-                        alt={product.name}
+                        alt={`${product.name}, Grusskarte, Druck von Anja Boos`}
                         width={product.width}
                         height={product.height}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 28vw"
@@ -239,8 +239,8 @@ export default function ShopPage() {
                   Bilder
                 </h2>
                 <p className="mt-3 text-muted">
-                  Originalbilder auf Malkarton, Leinwand und Papier. Auf Jimdo ohne Preis
-                  ausgewiesen — Anfrage per E-Mail.
+                  Originalbilder auf Malkarton, Leinwand und Papier zum Verkauf —
+                  Preis auf Anfrage.
                 </p>
               </div>
 
@@ -278,7 +278,7 @@ export default function ShopPage() {
                             onClick={() => enquireArtwork(product)}
                             className="mt-5 w-fit border border-ink px-5 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-ink hover:bg-ink hover:text-paper"
                           >
-                            Preis anfragen
+                            Preis auf Anfrage
                           </button>
                         </li>
                       ))}

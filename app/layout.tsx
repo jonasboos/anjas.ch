@@ -3,6 +3,9 @@ import { Cormorant_Garamond, Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { JsonLdScript } from "./components/JsonLd";
+import { personAndGalleryJsonLd } from "@/lib/json-ld";
+import { pageSeo } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 const outfit = Outfit({
@@ -19,53 +22,55 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const description =
-  "Portfolio der Schweizer Künstlerin Anja Boos. Acrylmalerei, inspiriert von Natur, Landschaften und Gefühlen.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Anja Boos | Acrylmalerei & Kunst aus der Schweiz",
+    default: `${pageSeo.home.title} | Anja Boos`,
     template: "%s | Anja Boos",
   },
-  description,
+  description: pageSeo.home.description,
   applicationName: "Anja Boos",
   authors: [{ name: "Anja Boos", url: site.url }],
   creator: "Anja Boos",
+  keywords: [
+    "Anja Boos",
+    "Künstlerin Bern",
+    "Kunst Belp",
+    "Acrylbilder",
+    "Bilder kaufen Bern",
+    "Grusskarten",
+    "Mandala",
+    "Region Bern",
+  ],
   openGraph: {
     type: "website",
     locale: "de_CH",
     siteName: "Anja Boos",
-    title: "Anja Boos | Acrylmalerei & Kunst aus der Schweiz",
-    description,
+    title: `${pageSeo.home.title} | Anja Boos`,
+    description: pageSeo.home.description,
+    url: site.url,
+    images: [
+      {
+        url: pageSeo.home.image.url,
+        width: pageSeo.home.image.width,
+        height: pageSeo.home.image.height,
+        alt: pageSeo.home.image.alt,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Anja Boos | Acrylmalerei",
-    description,
+    title: `${pageSeo.home.title} | Anja Boos`,
+    description: pageSeo.home.description,
+    images: [pageSeo.home.image.url],
   },
   robots: {
     index: true,
     follow: true,
   },
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Anja Boos",
-  jobTitle: "Künstlerin",
-  email: site.email,
-  url: site.url,
-  image: `${site.url}/images/about/anja-boos-portrait.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Wankdorffeldstrasse 90, Raum 305",
-    postalCode: "3014",
-    addressLocality: "Bern",
-    addressCountry: "CH",
+  alternates: {
+    canonical: "/",
   },
-  sameAs: [site.instagram, site.saatchi],
 };
 
 export default function RootLayout({
@@ -84,10 +89,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLdScript data={personAndGalleryJsonLd()} />
       </body>
     </html>
   );

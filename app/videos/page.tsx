@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import VideosPage from "@/app/components/pages/VideosPage";
+import { JsonLdScript } from "@/app/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/json-ld";
+import { buildPageMetadata, pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Videos",
-  description:
-    "Videos über den Entstehungsprozess der Kunstwerke von Anja Boos. Malen, Techniken und Inspiration.",
-  alternates: { canonical: "/videos" },
-  openGraph: {
-    title: "Videos | Anja Boos",
-    description: "Der kreative Prozess in bewegten Bildern.",
-    url: "/videos",
-  },
-};
+export const metadata: Metadata = buildPageMetadata(pageSeo.videos);
 
 export default function Page() {
-  return <VideosPage />;
+  return (
+    <>
+      <VideosPage />
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Videos", path: "/videos" },
+        ])}
+      />
+    </>
+  );
 }
