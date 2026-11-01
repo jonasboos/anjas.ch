@@ -76,11 +76,11 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
       }}
     >
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <p className="text-xs uppercase tracking-[0.22em] text-paper/70">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
+          <p className="shrink-0 text-xs uppercase tracking-[0.22em] text-paper/70">
             {index + 1} / {items.length}
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <button
               type="button"
               className="border border-paper/30 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] hover:bg-paper hover:text-ink"
@@ -115,16 +115,19 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
               className={
                 zoom
                   ? "h-[150vh] w-auto max-w-none"
-                  : "h-auto max-h-[calc(100vh-11.5rem)] w-auto max-w-[min(100%,1100px)]"
+                  : "h-auto max-h-[calc(100vh-12.5rem)] w-auto max-w-[min(100%,1100px)]"
               }
               priority
             />
           </div>
         </div>
 
-        <div className="grid items-end gap-4 px-4 py-4 sm:grid-cols-[1fr_auto] sm:px-6">
-          <div>
-            <h2 id="lightbox-title" className="font-serif text-3xl text-paper sm:text-4xl">
+        <div className="grid items-end gap-3 px-4 py-3 sm:grid-cols-[1fr_auto] sm:gap-4 sm:px-6 sm:py-4">
+          <div className="min-w-0">
+            <h2
+              id="lightbox-title"
+              className="font-serif text-[1.65rem] leading-tight text-paper sm:text-4xl"
+            >
               {item.title}
             </h2>
             {item.category ? (

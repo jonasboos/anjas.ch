@@ -80,7 +80,7 @@ export function NewsletterForm({ tone = "inverse" }: { tone?: "inverse" | "plain
         <button
           type="submit"
           className={cn(
-            "px-6 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em]",
+            "w-full px-6 py-3 text-[0.72rem] font-medium uppercase tracking-[0.18em] md:w-auto",
             inverse ? "bg-paper text-ink hover:bg-mat" : "bg-ink text-paper hover:bg-spruce"
           )}
         >
