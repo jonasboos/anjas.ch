@@ -2,70 +2,142 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { useEffect, useId, useRef, useState } from "react";
+import { navLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const links = [
-  { href: "/shop", label: "Shop" },
-  { href: "/gallery", label: "Galerie" },
-  { href: "/videos", label: "Videos" },
-  { href: "/blog", label: "Blog" },
-  { href: "/about", label: "Über" },
-  { href: "/contact", label: "Kontakt" },
-];
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function Navbar() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState(pathname);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+
+  if (pathname !== openPath) {
+    setOpenPath(pathname);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const root = menuRef.current;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const items = root
+      ? [...root.querySelectorAll<HTMLElement>("a, button")]
+      : [];
+    items[0]?.focus();
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus();
+    };
+  }, [open]);
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-6 left-1/2 z-50 -translate-x-1/2"
-    >
-      <div className="flex items-center gap-1 rounded-full border border-white/10 bg-zinc-950/80 px-2 py-1.5 shadow-2xl shadow-black/50 backdrop-blur-xl">
-        {/* Logo */}
+    <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/90 backdrop-blur-md">
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-5 md:h-[4.5rem] md:px-10">
         <Link
           href="/"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/20"
+          className="font-serif text-[1.7rem] leading-none tracking-tight text-ink"
         >
-          <span className="text-xs font-black tracking-tighter">AB</span>
+          Anja Boos
+          <span className="sr-only">, Startseite</span>
         </Link>
 
-        {/* Divider */}
-        <div className="mx-2 h-5 w-px bg-white/10" />
-
-        {/* Navigation Links */}
-        <div className="flex items-center">
-          {links.map((link) => {
-            const isActive = pathname === link.href;
+        <nav aria-label="Hauptnavigation" className="hidden items-center gap-7 md:flex">
+          {navLinks.map((link) => {
+            const active = isActive(pathname, link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-4 py-2"
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-active"
-                    className="absolute inset-0 rounded-full bg-white/10"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "text-[0.72rem] font-medium uppercase tracking-[0.22em] transition-colors",
+                  active ? "text-ink" : "text-muted hover:text-ink"
                 )}
-                <span
-                  className={cn(
-                    "relative z-10 text-sm font-medium transition-colors duration-200",
-                    isActive ? "text-white" : "text-zinc-500 hover:text-white"
-                  )}
-                >
-                  {link.label}
-                </span>
+              >
+                {link.label}
               </Link>
             );
           })}
-        </div>
+        </nav>
+
+        <button
+          type="button"
+          className="text-[0.72rem] font-medium uppercase tracking-[0.22em] text-ink md:hidden"
+          aria-expanded={open}
+          aria-controls={menuId}
+          onClick={() => setOpen(true)}
+        >
+          Menü
+        </button>
       </div>
-    </motion.nav>
+
+      {open ? (
+        <div
+          id={menuId}
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation"
+          className="fixed inset-0 z-50 flex flex-col bg-paper px-6 py-5 md:hidden"
+        >
+          <div className="flex items-center justify-between">
+            <p className="font-serif text-3xl">Anja Boos</p>
+            <button
+              type="button"
+              className="text-[0.72rem] font-medium uppercase tracking-[0.22em]"
+              onClick={() => setOpen(false)}
+            >
+              Schliessen
+            </button>
+          </div>
+          <nav aria-label="Mobilnavigation" className="mt-16 flex flex-col gap-5">
+            {navLinks.map((link) => {
+              const active = isActive(pathname, link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "font-serif text-5xl leading-none",
+                    active ? "text-spruce" : "text-ink"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      ) : null}
+    </header>
   );
 }

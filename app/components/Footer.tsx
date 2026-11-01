@@ -1,48 +1,52 @@
 import Link from "next/link";
+import { navLinks, shell, site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 py-16">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-col items-center gap-8">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-2xl font-light tracking-tight text-white"
-          >
-            Anja Boos
-          </Link>
-
-          {/* Links */}
-          <nav className="flex gap-8 text-sm">
-            <Link href="/shop" className="text-zinc-500 transition-colors hover:text-white">
-              Shop
-            </Link>
-            <Link href="/gallery" className="text-zinc-500 transition-colors hover:text-white">
-              Galerie
-            </Link>
-            <Link href="/videos" className="text-zinc-500 transition-colors hover:text-white">
-              Videos
-            </Link>
-            <Link href="/blog" className="text-zinc-500 transition-colors hover:text-white">
-              Blog
-            </Link>
-            <Link href="/about" className="text-zinc-500 transition-colors hover:text-white">
-              Über
-            </Link>
-            <Link href="/contact" className="text-zinc-500 transition-colors hover:text-white">
-              Kontakt
-            </Link>
-          </nav>
-
-          {/* Divider */}
-          <div className="h-px w-16 bg-zinc-800" />
-
-          {/* Copyright */}
-          <p className="text-xs text-zinc-600">
-            © {new Date().getFullYear()} Anja Boos
+    <footer className="mt-8 border-t border-line">
+      <div className={`${shell} grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:py-16`}>
+        <div>
+          <p className="font-serif text-4xl text-ink">Anja Boos</p>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
+            Acrylmalerei, inspiriert von Natur, Landschaften und Gefühlen.
           </p>
         </div>
+
+        <nav aria-label="Fussnavigation" className="flex flex-col gap-2 text-sm">
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="w-fit text-muted hover:text-ink">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="space-y-2 text-sm text-muted">
+          <p>{site.studio}</p>
+          <a className="block w-fit hover:text-ink" href={`mailto:${site.email}`}>
+            {site.email}
+          </a>
+          <a
+            className="block w-fit hover:text-ink"
+            href={site.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+            <span className="sr-only"> (öffnet in neuem Tab)</span>
+          </a>
+          <a
+            className="block w-fit hover:text-ink"
+            href={site.saatchi}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Saatchi Art
+            <span className="sr-only"> (öffnet in neuem Tab)</span>
+          </a>
+        </div>
+      </div>
+      <div className={`${shell} border-t border-line py-5 text-xs tracking-wide text-muted`}>
+        © {new Date().getFullYear()} Anja Boos
       </div>
     </footer>
   );

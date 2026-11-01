@@ -5,6 +5,8 @@ export type ShopProduct = {
   price: number;
   description: string[];
   imageUrl: string;
+  width: number;
+  height: number;
   availability: "verfuegbar" | "folgt";
   deliveryTime: string;
 };
@@ -18,12 +20,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/if81043a9ee58f373/version/1701098088/image.jpg",
+    imageUrl: "/images/shop/kartenset-blumen-1.jpg",
+    width: 800,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },
@@ -35,12 +38,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/ic7d711eaac88bbf5/version/1701098432/image.jpg",
+    imageUrl: "/images/shop/kartenset-blumen-2.jpg",
+    width: 800,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },
@@ -52,12 +56,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/ibef0f75b6498deb5/version/1704262660/image.jpg",
+    imageUrl: "/images/shop/kartenset-winter.jpg",
+    width: 800,
+    height: 657,
     availability: "verfuegbar",
     deliveryTime: "1 - 3 Tage",
   },
@@ -69,12 +74,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/id6481d2e89f6585d/version/1701355166/image.jpg",
+    imageUrl: "/images/shop/karte-schwarzsee-herbst.jpg",
+    width: 800,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "1 - 3 Tage",
   },
@@ -86,12 +92,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/iba3202386684dc27/version/1701355409/image.jpg",
+    imageUrl: "/images/shop/karte-moewe.jpg",
+    width: 799,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "1 - 3 Tage",
   },
@@ -103,12 +110,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "2 Falt-Grusskarten rechteckig",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 10 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/i3e170329bb618aa4/version/1702024002/image.jpg",
+    imageUrl: "/images/shop/tierkartenset-2.jpg",
+    width: 600,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "1 - 3 Tage",
   },
@@ -120,12 +128,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image/width=1820%2Cheight=1280%2Cfit=contain%2Cformat=jpg%2C/app/cms/storage/image/path/s6a5681fc1957b232/image/i1b2fec48cbc1ad7d/version/1700925205/image.jpg",
+    imageUrl: "/images/shop/karte-mandala-januar.jpg",
+    width: 1400,
+    height: 1298,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },
@@ -137,12 +146,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/i0a152a77c0e8eac8/version/1701361139/image.jpg",
+    imageUrl: "/images/shop/kartenset-mandala-1.jpg",
+    width: 800,
+    height: 664,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },
@@ -154,12 +164,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/idd7abd5fa8566401/version/1704262614/image.jpg",
+    imageUrl: "/images/shop/kartenset-mandala-2.jpg",
+    width: 909,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },
@@ -171,12 +182,13 @@ export const shopProducts: ShopProduct[] = [
     description: [
       "3 Falt-Grusskarte quadratisch",
       "Innenseite leer",
-      "Hochwertiger Druck auf 300g Papier glaenzend",
+      "Hochwertiger Druck auf 300g Papier glänzend",
       "Zu jeder Grusskarte wird ein passendes weisses Kuvert gratis mitgeliefert",
       "Masse: 14.3 x 14.3 cm",
     ],
-    imageUrl:
-      "https://image.jimcdn.com/cdn-cgi/image//app/cms/storage/image/path/s6a5681fc1957b232/image/i7d88e1d5e9125430/version/1701421070/image.jpg",
+    imageUrl: "/images/shop/kartenset-mandala-3.jpg",
+    width: 961,
+    height: 800,
     availability: "verfuegbar",
     deliveryTime: "3 - 5 Tage",
   },

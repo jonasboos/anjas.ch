@@ -1,18 +1,157 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), "Iowan Old Style", Palatino, Georgia, serif;
+  --color-paper: #f3efe7;
+  --color-paper-deep: #e8e2d6;
+  --color-mat: #fffcf8;
+  --color-ink: #1b1916;
+  --color-muted: #4e4840;
+  --color-line: #ddd6cb;
+  --color-spruce: #1e3a34;
+  --color-danger: #8d2f2a;
 }
 
 :root {
-  --background: #050505;
-  --foreground: #fafafa;
+  color-scheme: light;
+  --background: #f3efe7;
+  --foreground: #1b1916;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: #1e3a34;
+  color: #f3efe7;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid #1e3a34;
+  outline-offset: 3px;
+}
+
+.tone-inverse :focus-visible {
+  outline-color: #f3efe7;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  z-index: 80;
+  transform: translateY(-160%);
+  background: #1b1916;
+  color: #f3efe7;
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.article p {
+  margin-top: 1.25em;
+  font-size: 1.075rem;
+  line-height: 1.75;
+  color: #3f3a34;
+}
+
+.article p:first-child {
+  margin-top: 0;
+}
+
+dialog.lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(20, 18, 16, 0.94);
+  color: #f3efe7;
+}
+
+dialog.lightbox::backdrop {
+  background: rgba(20, 18, 16, 0.72);
+}
+
+dialog.lightbox :focus-visible {
+  outline-color: #f3efe7;
+}
+
+[id^="werk-"] {
+  scroll-margin-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.7s ease both;
+  }
+
+  .rise-2 {
+    animation-delay: 0.08s;
+  }
+
+  .rise-3 {
+    animation-delay: 0.16s;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
