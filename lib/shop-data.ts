@@ -8,7 +8,7 @@ export type ShopProduct = {
   section: ShopSection;
   /** Sub-group for Bilder (Malkarton / Leinwand / Papier), or card theme for Grusskarten. */
   category: CardCategory | BildMedium;
-  /** CHF price; null for Originalbilder (no price on Jimdo — enquire). */
+  /** CHF price; null for Originalbilder (Preis auf Anfrage). */
   price: number | null;
   stock: number | null;
   description: string[];
@@ -954,7 +954,7 @@ export const originalBilder: ShopProduct[] = [
   },
 ];
 
-/** Full catalog in Jimdo order: cards first, then Originalbilder. */
+/** Full catalog in shop order: cards first, then Originalbilder. */
 export const shopProducts: ShopProduct[] = [...greetingCards, ...originalBilder];
 
 export const removedLegacyProducts = [

@@ -103,7 +103,7 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
 
         <div className="min-h-0 flex-1 overflow-auto" onClick={onClose}>
           <div
-            className="flex min-h-full w-max min-w-full items-center justify-center p-4"
+            className={`flex min-h-full items-center justify-center p-4 ${zoom ? "w-max min-w-full" : "w-full"}`}
             onClick={(event) => event.stopPropagation()}
           >
             <Image
@@ -116,7 +116,7 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
               className={
                 zoom
                   ? "h-[150vh] w-auto max-w-none"
-                  : "h-auto max-h-[calc(100vh-12.5rem)] w-auto max-w-[min(100%,1100px)]"
+                  : "h-auto max-h-[min(80vh,calc(100dvh-12.5rem))] w-auto max-w-[min(100%,900px)] object-contain shadow-2xl"
               }
               priority
             />

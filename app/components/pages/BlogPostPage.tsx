@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BlogImage } from "../BlogImage";
 import Link from "next/link";
 import { BlogPost } from "@/lib/blog-data";
 import { shell } from "@/lib/site";
@@ -19,17 +19,13 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
             {post.title}
           </h1>
         </header>
-        <figure className="mt-10 bg-mat p-2 ring-1 ring-ink/8 sm:p-3">
-          <Image
-            src={post.imageUrl}
-            alt={`${post.title}, Kunstwerk von Anja Boos`}
-            width={post.width}
-            height={post.height}
-            priority
-            sizes="(max-width: 768px) 100vw, 768px"
-            className="h-auto w-full"
-          />
-        </figure>
+        <BlogImage
+          src={post.imageUrl}
+          alt={`${post.title}, Kunstwerk von Anja Boos`}
+          title={post.title}
+          width={post.width}
+          height={post.height}
+        />
         <div
           className="article mt-10"
           dangerouslySetInnerHTML={{ __html: post.content }}

@@ -158,8 +158,7 @@ export default function HomePage() {
                 Kunstbilder und Karten im Shop
               </h2>
               <p className="mt-4 max-w-xl text-muted">
-                Alle Karten sind Drucke von selbstgemalten Bildern. Originalbilder
-                folgen bald.
+                Alle Karten sind Drucke von selbstgemalten Bildern.
               </p>
             </div>
             <Link
