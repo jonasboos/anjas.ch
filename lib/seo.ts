@@ -138,6 +138,12 @@ export const pageSeo = {
       alt: "Bergsee, Motiv aus dem Atelier von Anja Boos",
     },
   },
+  datenschutz: {
+    title: "Datenschutzerklärung",
+    description:
+      "Datenschutzerklärung von anjas.ch, der Website der Künstlerin Anja Boos aus der Region Bern: welche Daten beim Besuch, bei E-Mail-Kontakt und Bestellungen bearbeitet werden.",
+    path: "/datenschutz",
+  },
   contact: {
     title: "Kontakt – Atelier in Bern, Region Belp",
     description:

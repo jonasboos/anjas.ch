@@ -17,7 +17,7 @@ export type Artwork = {
 /** @deprecated Prefer theme on Artwork */
 export type ArtworkCategory = ArtworkTheme;
 
-export const jimdoArtworks: Artwork[] = [
+export const originalArtworks: Artwork[] = [
   {
     id: "shop-berge-adelboden-acryl-auf-malkarton-30x30cm",
     title: "Berge Adelboden",
@@ -467,7 +467,7 @@ export const portfolioArtworks: Artwork[] = [
 ];
 
 /** All individual artworks for the Galerie: Originalbilder first, then portfolio works. */
-export const galleryArtworks: Artwork[] = [...jimdoArtworks, ...portfolioArtworks];
+export const galleryArtworks: Artwork[] = [...originalArtworks, ...portfolioArtworks];
 
 /** @deprecated Use galleryArtworks */
 export const artworks = galleryArtworks;

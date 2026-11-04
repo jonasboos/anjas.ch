@@ -46,7 +46,12 @@ export function Footer() {
         </div>
       </div>
       <div className={`${shell} border-t border-line py-5 text-xs tracking-wide text-muted`}>
-        © {new Date().getFullYear()} Anja Boos
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span>© {new Date().getFullYear()} Anja Boos</span>
+          <Link href="/datenschutz" className="hover:text-ink">
+            Datenschutz
+          </Link>
+        </div>
       </div>
     </footer>
   );
