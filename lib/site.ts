@@ -5,7 +5,7 @@ export const site = {
   orderEmail: "mail@anjas.ch",
   instagram: "https://www.instagram.com/anjas_ch/",
   saatchi: "https://www.saatchiart.com/AnjaBoos",
-  privacy: "https://anjas1.jimdoweb.com/j/privacy",
+  privacy: "/datenschutz",
   studio: "Wankdorffeldstrasse 90 | 3014 Bern | Raum 305",
 } as const;
 
