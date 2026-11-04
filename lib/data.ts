@@ -466,7 +466,7 @@ export const portfolioArtworks: Artwork[] = [
   },
 ];
 
-/** All individual artworks for the Galerie: Jimdo originals first, then portfolio works. */
+/** All individual artworks for the Galerie: Originalbilder first, then portfolio works. */
 export const galleryArtworks: Artwork[] = [...jimdoArtworks, ...portfolioArtworks];
 
 /** @deprecated Use galleryArtworks */

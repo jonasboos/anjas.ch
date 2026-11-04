@@ -170,8 +170,10 @@ export default function ShopPage() {
           <p className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-muted">Shop</p>
           <h1 className="mt-3 font-serif text-5xl text-ink sm:text-7xl">Grusskarten und Originalbilder</h1>
           <p className="mt-5 text-lg text-muted">
-            Oben die Grusskarten mit Mengenangabe, unten die Originalbilder auf Malkarton,
-            Leinwand und Papier — wie im bisherigen Shop.
+            Hier finden Sie Grusskarten mit Motiven aus meinen eigenen Bildern und meine
+            Originalbilder auf Malkarton, Leinwand und Papier. Die Preise der Originalbilder
+            gibt es auf Anfrage – schreiben Sie mir einfach eine E-Mail, ich freue mich auf
+            Ihre Nachricht.
           </p>
         </header>
 
